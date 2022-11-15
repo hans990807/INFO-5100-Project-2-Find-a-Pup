@@ -56,9 +56,6 @@
         <svg id="choropleth" height="600" width="900" style="background: #445; margin-top:50px"></svg>
         <div id="controls"></div>
     </div>
-    <div class="row">
-        <div id="table"></div>
-    </div>
 
 
     <script>
@@ -76,7 +73,7 @@
         const requestDataMap = async function () {
             // 2. Draw a map of US using topoJSON
             // 2a. Import data as synchronous call to topoJSON data file
-            const us = await d3.json("us.json");
+            const us = await d3.json("./us.json");
             console.log(us);
 
             // 2b. Pick out topographic features and build d3 helpers
@@ -116,6 +113,8 @@
                 .attr("class", "outline")
                 .attr("d", path);
 
+            // LUCY CHANGES 2 START
+
             // add counties data
             let countyPaths = map.selectAll("path.counties").data(counties.features)
                 .join("path")
@@ -147,6 +146,7 @@
                     .attr("visibility", (transform.k > 3) ? "visibile" : "hidden");
             }
 
+            // LUCY CHANGES 2 END
 
             // 3a. Import survey data as synchronous calls
             // "../datasets/state-survey-responses-fa22.csv"
@@ -179,58 +179,14 @@
 
             // 3d. Recolor the states to make a choropleth map
             map.selectAll(".state")
-                .style("fill", "#faf0e6");
-            //.style("fill", d => colorScale(stateIdCounts[d.id]));
+                .style("fill", d => colorScale(stateIdCounts[d.id]));
 
 
-            var city_coordinates = await d3.csv("city_coordinates.csv", d3.autoType);
-            //console.log(city_coordinates);
 
-            var city_dict = {}
+        };
 
-            city_coordinates.forEach((d, i) => {
-                d.position = projection([d.Longitude, d.Latitude]);
-
-                if (d.State in city_dict) {
-                    city_dict[d.State][d.City] = d.position;
-                } else {
-                    city_dict[d.State] = {};
-                    city_dict[d.State][d.City] = d.position;
-                }
-            });
-
-            console.log(city_dict);
-
-            //console.log(city_coordinates);
-
-            const jitter = function () {
-                // Generates random number between -4 and 4
-                return Math.random() * (10 - (-10)) + (-10);
-            }
-
-            const updateMap = function (dogData) {
-                map.selectAll("circle").data(dogData)
-                    .join("circle")
-                    .attr("r", 1)
-                    .attr("fill", "#4b0082")
-                    .attr("opacity", 0.4)
-                    .attr("cx", d => {
-                        if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
-                            return city_dict[d.contact_state][d.contact_city][0] + jitter();
-                        } else {
-                            return 0;
-                        }
-                    })
-                    .attr("cy", d => {
-                        if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
-                            return city_dict[d.contact_state][d.contact_city][1] + jitter();
-                        } else {
-                            return 0;
-                        }
-                    });
-            }
-            updateMap(allDogData);
-            updatePreviewTable(allDogData)
+        // 1. An async function to load data
+        const requestDataSlider = async function () {
 
             //load dog parameters json
             var data = await d3.json("dog-parameter.json");
@@ -238,7 +194,7 @@
             //Pre-process data: we only need data that includes our filter categories:
             //kid friendly, pet friendly, intelligence, and general health
             data = data["dog_breeds"];
-            traits = ["Incredibly Kid Friendly Dogs", "Dog Friendly", "Intelligence", "Size", "Energy Level"]
+            traits = ["Incredibly Kid Friendly Dogs", "Dog Friendly", "Intelligence", "General Health"]
             for (x = 0; x < data.length; x++) {
                 //if filter does not exist, remove that dog breed from data
                 if (traits.indexOf(data[x]) < 0)
@@ -268,68 +224,13 @@
                         breeds.push(key);
                     }
                 };
+                console.log(breeds);
 
                 // Then, connect the breeds that are left with all dog data
-                var mapList = [];
-
-                allDogData.forEach(d => {
-                    // If the breed in allDogData matches the filtered breeds,
-                    // Save that mapList
-                    if (breeds.includes(d.breed_primary))
-                        mapList.push(d);
-                });
-
-                // call update previewTable
-                //updatePreviewTable(mapList);
-
                 // and call update the map
-                updateMap(mapList);
+
+                // updateMap()
             }
-
-            function updatePreviewTable(data) {
-                // create list of 10 random numbers
-                // Show the preview of 10 random dogs
-                dogsPreview = []
-                for (x = 0; x < 10; x++) {
-                    randNum = Math.floor(Math.random() * data.length + 1);
-                    dogsPreview.push(data[randNum])
-                }
-
-                //Render the preview Table
-                var table = d3.select("#table").append("table");
-                var header = table.append("thead").append("tr");
-
-                table.selectAll("table").remove();
-
-                header.selectAll("th").data(["Name", "Breed", "Sex", "City", "State", "Adopt Me"])
-                    .enter().append("th")
-                    .text(d => d);
-
-                var tablebody = table.append("tbody");
-                rows = tablebody.selectAll("tr").data(dogsPreview).enter().append("tr").text(d => d.name)
-                    .append("td").text(d => d.breed_primary)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.sex)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_city)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_state)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.url)
-                //.append("td").text(d => d.sex)
-                //.append("td").text(d => d.breed_primary)
-                // cells = rows.selectAll("td").data(dogsPreview).join(function (d) {
-                //     console.log(d);
-                //     return d;
-                // })
-                //     .enter()
-                //     .append("td")
-                //     .text(function (d) {
-                //         return d;
-                //     });
-
-
-            }
-
-            // function updateMap(data) {
-
-            // }
 
             function makeSlider(container, label, attribute, sliderWidth, sliderHeight) {
                 // Get a array of values for attribute
@@ -416,18 +317,16 @@
             //Intelligence
             makeSlider(controls, "Intelligence: ", "Intelligence", 300, 30);
 
-            // Size
-            makeSlider(controls, "Size: ", "Size", 300, 30);
+            //General Health
+            makeSlider(controls, "General Health: ", "General Health", 300, 30);
 
-            // Energy Level
-            makeSlider(controls, "Energy Level: ", "Energy Level", 300, 30);
 
         };
 
 
-
         //call async function
         requestDataMap();
+        requestDataSlider();
 
 
     </script>
