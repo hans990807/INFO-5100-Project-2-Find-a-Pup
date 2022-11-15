@@ -1,12 +1,20 @@
 <html>
+
 <head>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <title>Find'a Pup!</title>
     <style>
         .state {
@@ -55,7 +63,8 @@
                 <div class="col-12">
                     <h1>INFO 3330/5100 Project 2</h1>
                     <h2>Find'a Pup!</h2>
-                    <h6>Alys Portela (amp332), Lucy Barsanti (leb2420), Yagmur Dulger (yd333), Hung-Han Sung (hs794)</h6>
+                    <h6>Alys Portela (amp332), Lucy Barsanti (leb2420), Yagmur Dulger (yd333), Hung-Han Sung (hs794)
+                    </h6>
                 </div>
             </div>
         </div>
@@ -74,12 +83,24 @@
                     </div>
                     <div class="container-fluid" id="table">
                         <div class="row" id="header">
-                            <div class="col" id="name"><h5>Name</h5></div>
-                            <div class="col" id="breed"><h5>Breed</h5></div>
-                            <div class="col" id="sex"><h5>Sex</h5></div>
-                            <div class="col" id="city"><h5>City</h5></div>
-                            <div class="col" id="state"><h5>State</h5></div>
-                            <div class="col-6" id="adopt"><h5>Adopt Me</h6></div>
+                            <div class="col" id="name">
+                                <h5>Name</h5>
+                            </div>
+                            <div class="col" id="breed">
+                                <h5>Breed</h5>
+                            </div>
+                            <div class="col" id="sex">
+                                <h5>Sex</h5>
+                            </div>
+                            <div class="col" id="city">
+                                <h5>City</h5>
+                            </div>
+                            <div class="col" id="state">
+                                <h5>State</h5>
+                            </div>
+                            <div class="col-6" id="adopt">
+                                <h5>Adopt Me</h6>
+                            </div>
                         </div>
                         <div class="row" id="cell">
                             <div class="col" id="name">Name</div>
@@ -166,354 +187,410 @@
             </div>
         </div>
 
-    <script>
-        const svg = d3.select("#choropleth");
-        const width = svg.attr("width");
-        const height = svg.attr("height");
-        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-        const mapWidth = width - margin.left - margin.right;
-        const mapHeight = height - margin.top - margin.bottom;
-        const map = svg.append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        var breeds = [];
+        <script>
+            const svg = d3.select("#choropleth");
+            const width = svg.attr("width");
+            const height = svg.attr("height");
+            const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+            const mapWidth = width - margin.left - margin.right;
+            const mapHeight = height - margin.top - margin.bottom;
+            const map = svg.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            var breeds = [];
 
-        // 1. An async function to load data and build the map
-        const requestDataMap = async function () {
-            // 2. Draw a map of US using topoJSON
-            // 2a. Import data as synchronous call to topoJSON data file
-            const us = await d3.json("us.json");
-            console.log(us);
+            // 1. An async function to load data and build the map
+            const requestDataMap = async function () {
+                // 2. Draw a map of US using topoJSON
+                // 2a. Import data as synchronous call to topoJSON data file
+                const us = await d3.json("us.json");
+                console.log(us);
 
-            // 2b. Pick out topographic features and build d3 helpers
-            var states = topojson.feature(us, us.objects.states);     // List of state outlines to fill
-            var statesMesh = topojson.mesh(us, us.objects.states);    // 'Mesh' of all outlines put together for a stroke
+                // 2b. Pick out topographic features and build d3 helpers
+                var states = topojson.feature(us, us.objects.states);     // List of state outlines to fill
+                var statesMesh = topojson.mesh(us, us.objects.states);    // 'Mesh' of all outlines put together for a stroke
 
-            // LUCY CHANGES 1 START added counties
-            var counties = topojson.feature(us, us.objects.counties);
-            var countiesMesh = topojson.mesh(us, us.objects.counties);
+                // LUCY CHANGES 1 START added counties
+                var counties = topojson.feature(us, us.objects.counties);
+                var countiesMesh = topojson.mesh(us, us.objects.counties);
 
-            // LUCY CHANGES 1 END
+                // LUCY CHANGES 1 END
 
-            var projection = d3.geoAlbersUsa().fitSize([mapWidth, mapHeight], states);
-            var path = d3.geoPath().projection(projection);
-            console.log(states);
-            console.log(statesMesh);
-            console.log("counties", counties);
-            console.log("countiesMesh", countiesMesh);
+                var projection = d3.geoAlbersUsa().fitSize([mapWidth, mapHeight], states);
+                var path = d3.geoPath().projection(projection);
+                console.log(states);
+                console.log(statesMesh);
+                console.log("counties", counties);
+                console.log("countiesMesh", countiesMesh);
 
+                // Select State
+                // var selectedState = null;
+                // let setState = function (event, d) {
+                //     selectedState = d;
+                // };
 
-            // 2d. Add a graticule (we did this after 2c, but it must go here)
-            //      (Graticules are much more configurable, but we'll use the default for now)
-            let graticule = d3.geoGraticule10();
-            console.log(graticule);
-            map.append("path").attr("class", "graticule").attr("d", path(graticule));
+                // 2d. Add a graticule (we did this after 2c, but it must go here)
+                //      (Graticules are much more configurable, but we'll use the default for now)
+                let graticule = d3.geoGraticule10();
+                console.log(graticule);
+                map.append("path").attr("class", "graticule").attr("d", path(graticule));
 
-            // 2c. Draw states and outlines (see CSS at the top)
-            let statePaths = map.selectAll("path.state").data(states.features)
-                .join("path")
-                .attr("class", "state")
-                .attr("note", d => d.id)  // debugging
-                .attr("d", path)
-            // .on('mouseover',  mouseEntersState )
-            // .on('mouseout',  mouseLeavesState );
-
-            map.append("path").datum(statesMesh)
-                .attr("class", "outline")
-                .attr("d", path);
-
-            // add counties data
-            let countyPaths = map.selectAll("path.counties").data(counties.features)
-                .join("path")
-                .attr("class", "county")
-                .attr("d", path);
-
-            map.append("path").datum(countiesMesh)
-                .attr("class", "county-outline")
-                .attr("d", path);
+                // 2c. Draw states and outlines (see CSS at the top)
+                let statePaths = map.selectAll("path.state").data(states.features)
+                    .join("path")
+                    .attr("class", "state")
+                    .attr("note", d => d.id)  // debugging
+                    .attr("d", path)
+                //.on("click", setState)
+                // .on('mouseover',  mouseEntersState )
+                // .on('mouseout',  mouseLeavesState );
 
 
-            var zoom = d3.zoom()
-                .scaleExtent([1, 20])
-                .translateExtent([[-2050, -2050], [mapWidth + 2050, mapHeight + 2050]]).on("zoom", mapZoomed);
 
-            map.call(zoom);
+                map.append("path").datum(statesMesh)
+                    .attr("class", "outline")
+                    .attr("d", path);
 
-            map.call(zoom.transform, d3.zoomIdentity);
+                // add counties data
+                let countyPaths = map.selectAll("path.counties").data(counties.features)
+                    .join("path")
+                    .attr("class", "county")
+                    .attr("d", path);
 
-            function mapZoomed({ transform }) {
-                map.attr("transform", transform.toString());
-                map.select(".state-outline")
-                    .style("stroke-width", 2 / transform.k);
-                map.select(".county-outline")
-                    .style("stroke-width", 1 / transform.k);
-                map.select(".county-outline")
-                    .attr("visibility", (transform.k > 3) ? "visible" : "hidden");
-                map.select(".county")
-                    .attr("visibility", (transform.k > 3) ? "visibile" : "hidden");
-            }
+                map.append("path").datum(countiesMesh)
+                    .attr("class", "county-outline")
+                    .attr("d", path);
 
 
-            // 3a. Import survey data as synchronous calls
-            // "../datasets/state-survey-responses-fa22.csv"
+                var zoom = d3.zoom()
+                    .scaleExtent([1, 20])
+                    .translateExtent([[-50000, -50000], [mapWidth + 50000, mapHeight + 50000]]).on("zoom", mapZoomed);
 
-            const allDogData = await d3.csv("./allDogDescriptions.csv", d3.autoType);
-            console.log('allDogData', allDogData);
+                map.call(zoom);
 
-            let stateShortCounts = {}; // state_short => count #
-            allDogData.forEach(row => {
-                if (row.contact_state in stateShortCounts) {
-                    stateShortCounts[row.contact_state] += 1;
-                } else {
-                    stateShortCounts[row.contact_state] = 1;
+                map.call(zoom.transform, d3.zoomIdentity);
+
+                function mapZoomed({ transform }) {
+                    map.attr("transform", transform.toString());
+                    map.select(".state-outline")
+                        .style("stroke-width", 2 / transform.k);
+                    map.select(".county-outline")
+                        .style("stroke-width", 1 / transform.k);
+                    map.select(".county-outline")
+                        .attr("visibility", (transform.k > 3) ? "visible" : "hidden");
+                    map.select(".county")
+                        .attr("visibility", (transform.k > 3) ? "visibile" : "hidden");
                 }
-            });
-
-            const surveyData = await d3.csv("./state-survey-responses-fa22.csv", d3.autoType);
-
-            let stateIdCounts = {};
-            surveyData.forEach(row => {
-                stateIdCounts[row.state_code] = stateShortCounts[row.state_short];
-            });
-            console.log(stateIdCounts);
 
 
-            // 3c. Make a d3 color scale for frequency    
-            const colorScale = d3.scaleQuantile()      // LLLLLLLLL
-                .domain(Object.values(stateIdCounts))
-                .range(["#D095C7", "#AF5675", "#9E3841", "#651F26", "#270A0E"]);
 
-            // 3d. Recolor the states to make a choropleth map
-            map.selectAll(".state")
-                .style("fill", "#faf0e6");
-            //.style("fill", d => colorScale(stateIdCounts[d.id]));
+                // function clicked(event, d) {
+                //     console.log(d)
 
+                //     // geoPath generators have a few extra functions. .bounds returns a pixel rectangle bounding the shape you give it
+                //     let bounds = path.bounds(d.geometry); // get bounds for clicked state/county
+                //     let dx = bounds[1][0] - bounds[0][0]; // width of state/county
+                //     let dy = bounds[1][1] - bounds[0][1]; // height of state/county
+                //     let x = (bounds[0][0] + bounds[1][0]) / 2; // center x of state/county
+                //     let y = (bounds[0][1] + bounds[1][1]) / 2; // center y of state/county
 
-            var city_coordinates = await d3.csv("city_coordinates.csv", d3.autoType);
-            //console.log(city_coordinates);
+                //     // We want to make sure scale is within 1-10 when we click, so things don't zoom too far or too little
+                //     // To compute zoom, we want to make sure the bounding box "just" fits onscreen.
+                //     // dx / mapWidth gets us the portion of the screen the shape takes up without any zoom at all
+                //     //  the lower dx/mapWidth is, the more we need to zoom because the shape is smaller
+                //     // We find the max of dx/mapWidth, dy/mapHeight because we don't want to zoom farther (smaller values need more zoom)
+                //     // We do 1 or 0.9 divided by dx/mapWidth because we need larger numbers to zoom in. 0.9 allows us to pad things a bit
+                //     let scale = Math.max(1, Math.min(10, 0.9 / Math.max(dx / mapWidth,
+                //         dy / mapHeight)));
 
-            var city_dict = {}
+                //     // Think of the translate like a delta describing how much we need to move the map to move a point to a desired position
+                //     // Simplistically, it works like (desired position) - (current position) = (translation)
+                //     // In this case mapWidth/2, the center of the screen is the desired place for our viewport
+                //     // x*scale is the position we want to move to the center (scale is there because we need to move more when zoomed in)
+                //     let translate = [mapWidth / 2 - x * scale, mapHeight / 2 - y * scale];
 
-            city_coordinates.forEach((d, i) => {
-                d.position = projection([d.Longitude, d.Latitude]);
+                //     // It's hard to programmatically adjust a zoom. The best way is to take the Identity (zoom transform where nothing is changed)
+                //     //  and then modify it using a .translate and .scale
+                //     let newTransform = d3.zoomIdentity
+                //         .translate(translate[0], translate[1])
+                //         .scale(scale);
+                //     // We can apply a new transform to the screen by using .call(zoom.tranform, newTransform)
+                //     // This is kinda the same thing as running zoom.transform(newTransform), but the chaining with .call allows us to add an animation
+                //     svg.transition().duration(1000).call(zoom.transform, newTransform);
 
-                if (d.State in city_dict) {
-                    city_dict[d.State][d.City] = d.position;
-                } else {
-                    city_dict[d.State] = {};
-                    city_dict[d.State][d.City] = d.position;
-                }
-            });
+                // }
 
-            console.log(city_dict);
+                // 3a. Import survey data as synchronous calls
+                // "../datasets/state-survey-responses-fa22.csv"
 
-            //console.log(city_coordinates);
+                const allDogData = await d3.csv("./allDogDescriptions.csv", d3.autoType);
+                console.log('allDogData', allDogData);
 
-            const jitter = function () {
-                // Generates random number between -4 and 4
-                return Math.random() * (10 - (-10)) + (-10);
-            }
-
-            const updateMap = function (dogData) {
-                map.selectAll("circle").data(dogData)
-                    .join("circle")
-                    .attr("r", 1)
-                    .attr("fill", "#4b0082")
-                    .attr("opacity", 0.4)
-                    .attr("cx", d => {
-                        if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
-                            return city_dict[d.contact_state][d.contact_city][0] + jitter();
-                        } else {
-                            return 0;
-                        }
-                    })
-                    .attr("cy", d => {
-                        if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
-                            return city_dict[d.contact_state][d.contact_city][1] + jitter();
-                        } else {
-                            return 0;
-                        }
-                    });
-            }
-            updateMap(allDogData);
-            updatePreviewTable(allDogData)
-
-            //load dog parameters json
-            var data = await d3.json("dog-parameter.json");
-
-            //Pre-process data: we only need data that includes our filter categories:
-            //kid friendly, pet friendly, intelligence, and general health
-            data = data["dog_breeds"];
-            traits = ["Incredibly Kid Friendly Dogs", "Dog Friendly", "Intelligence", "Size", "Energy Level"]
-            for (x = 0; x < data.length; x++) {
-                //if filter does not exist, remove that dog breed from data
-                if (traits.indexOf(data[x]) < 0)
-                    data.splice(x, 1);
-            }
-
-            //a list of filters the user has applied
-            var filters = {};
-
-            //loop through each of the filter functions and apply them
-            function pointPassesFilters(point) {
-                let stillPassed = true;
-
-                // Objects.values(filters) is the list of filter functions
-                Object.values(filters).forEach(filterFunc => {
-                    stillPassed = filterFunc(point) && stillPassed;
-                });
-
-                return stillPassed;
-            }
-
-            // Updating the map as the user interacts with the interface
-            function updateDogs(data) {
-                //First filter the breeds that pass the users filters
-                breeds = [];
-                for (const key in data) {
-                    if (pointPassesFilters(data[key])) {
-                        breeds.push(key);
+                let stateShortCounts = {}; // state_short => count #
+                allDogData.forEach(row => {
+                    if (row.contact_state in stateShortCounts) {
+                        stateShortCounts[row.contact_state] += 1;
+                    } else {
+                        stateShortCounts[row.contact_state] = 1;
                     }
-                };
-
-                // Then, connect the breeds that are left with all dog data
-                var mapList = [];
-
-                allDogData.forEach(d => {
-                    // If the breed in allDogData matches the filtered breeds,
-                    // Save that mapList
-                    if (breeds.includes(d.breed_primary))
-                        mapList.push(d);
                 });
 
-                // call update previewTable
-                updatePreviewTable(mapList);
+                const surveyData = await d3.csv("./state-survey-responses-fa22.csv", d3.autoType);
 
-                // and call update the map
-                updateMap(mapList);
-            }
+                let stateIdCounts = {};
+                surveyData.forEach(row => {
+                    stateIdCounts[row.state_code] = stateShortCounts[row.state_short];
+                });
+                console.log(stateIdCounts);
 
-            function updatePreviewTable(data) {
-                // create list of 10 random numbers
-                // Show the preview of 10 random dogs
-                dogsPreview = []
-                for (x = 0; x < 10; x++) {
-                    randNum = Math.floor(Math.random() * data.length + 1);
-                    dogsPreview.push(data[randNum])
+
+                // 3c. Make a d3 color scale for frequency    
+                const colorScale = d3.scaleQuantile()      // LLLLLLLLL
+                    .domain(Object.values(stateIdCounts))
+                    .range(["#D095C7", "#AF5675", "#9E3841", "#651F26", "#270A0E"]);
+
+                // 3d. Recolor the states to make a choropleth map
+                map.selectAll(".state")
+                    .style("fill", "#faf0e6");
+                //.style("fill", d => colorScale(stateIdCounts[d.id]));
+
+
+                var city_coordinates = await d3.csv("city_coordinates.csv", d3.autoType);
+                //console.log(city_coordinates);
+
+                var city_dict = {}
+
+                city_coordinates.forEach((d, i) => {
+                    d.position = projection([d.Longitude, d.Latitude]);
+
+                    if (d.State in city_dict) {
+                        city_dict[d.State][d.City] = d.position;
+                    } else {
+                        city_dict[d.State] = {};
+                        city_dict[d.State][d.City] = d.position;
+                    }
+                });
+
+                console.log(city_dict);
+
+                //console.log(city_coordinates);
+
+                const jitter = function () {
+                    // Generates random number between -4 and 4
+                    return Math.random() * (10 - (-10)) + (-10);
                 }
 
-                //Render the preview Table
-                var total = data.length
-                var title = total.toString() + " Results Total"
-                var totalTitle = d3.selectAll("#total").text(title)
+                const updateMap = function (dogData) {
+                    if (dogData.length < 1) {
+                        return;
+                    }
+                    map.selectAll("circle").data(dogData)
+                        .join("circle")
+                        .attr("r", 1)
+                        .attr("fill", "#4b0082")
+                        .attr("opacity", 0.4)
+                        .attr("cx", d => {
+                            if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
+                                return city_dict[d.contact_state][d.contact_city][0] + jitter();
+                            } else {
+                                return 0;
+                            }
+                        })
+                        .attr("cy", d => {
+                            if (d.contact_state in city_dict && d.contact_city in city_dict[d.contact_state]) {
+                                return city_dict[d.contact_state][d.contact_city][1] + jitter();
+                            } else {
+                                return 0;
+                            }
+                        });
+                }
+                updateMap(allDogData);
+                updatePreviewTable(allDogData)
 
-                //  grab the table id rows and replace text with dogsPreview data
-                var rows = d3.selectAll("#cell").data(dogsPreview).each(function(d) {
+                //load dog parameters json
+                var data = await d3.json("dog-parameter.json");
+
+                //Pre-process data: we only need data that includes our filter categories:
+                //kid friendly, dog friendly, intelligence, size, and energy level
+                data = data["dog_breeds"];
+                traits = ["Incredibly Kid Friendly Dogs", "Dog Friendly", "Intelligence", "Size", "Energy Level"]
+                for (x = 0; x < data.length; x++) {
+                    //if filter does not exist, remove that dog breed from data
+                    if (traits.indexOf(data[x]) < 0)
+                        data.splice(x, 1);
+                }
+
+                //a list of filters the user has applied
+                var filters = {};
+
+                //loop through each of the filter functions and apply them
+                function pointPassesFilters(point) {
+                    let stillPassed = true;
+
+                    //stillPassed = (selectedState == null || point.contact_state === selectedState);
+
+                    // Objects.values(filters) is the list of filter functions
+                    Object.values(filters).forEach(filterFunc => {
+                        stillPassed = filterFunc(point) && stillPassed;
+                    });
+
+                    return stillPassed;
+                }
+
+                // Updating the map as the user interacts with the interface
+                function updateDogs(data) {
+                    if (data.length < 1) {
+                        return;
+                    }
+                    //First filter the breeds that pass the users filters
+                    breeds = [];
+                    for (const key in data) {
+                        if (pointPassesFilters(data[key])) {
+                            breeds.push(key);
+                        }
+                    };
+
+                    // Then, connect the breeds that are left with all dog data
+                    var mapList = [];
+
+                    allDogData.forEach(d => {
+                        // If the breed in allDogData matches the filtered breeds,
+                        // Save that mapList
+                        if (breeds.includes(d.breed_primary))
+                            mapList.push(d);
+                    });
+
+                    // call update previewTable
+                    updatePreviewTable(mapList);
+
+                    // and call update the map
+                    updateMap(mapList);
+                }
+
+                function updatePreviewTable(data) {
+                    if (data.length < 1 || data === undefined) {
+                        return;
+                    }
+                    // create list of 10 random numbers
+                    // Show the preview of 10 random dogs
+                    dogsPreview = []
+                    for (x = 0; x < 10; x++) {
+                        randNum = Math.floor(Math.random() * data.length + 1);
+                        dogsPreview.push(data[randNum])
+                    }
+
+                    //Render the preview Table
+                    var total = data.length
+                    var title = total.toString() + " Results Total"
+                    var totalTitle = d3.selectAll("#total").text(title)
+
+                    //  grab the table id rows and replace text with dogsPreview data
+                    var rows = d3.selectAll("#cell").data(dogsPreview).each(function (d) {
                         d3.select(this).select("#name").text(d => d.name); // Transform to d3 Object
-                        d3.select(this).select("#breed").text(d => d.breed_primary); 
-                        d3.select(this).select("#sex").text(d => d.sex); 
-                        d3.select(this).select("#city").text(d => d.contact_city); 
-                        d3.select(this).select("#state").text(d => d.contact_state); 
-                        d3.select(this).select("#adopt").text(d => d.url); 
+                        d3.select(this).select("#breed").text(d => d.breed_primary);
+                        d3.select(this).select("#sex").text(d => d.sex);
+                        d3.select(this).select("#city").text(d => d.contact_city);
+                        d3.select(this).select("#state").text(d => d.contact_state);
+                        d3.select(this).select("#adopt").text(d => d.url);
                     });
-            }
-
-            function makeSlider(container, label, attribute, sliderWidth, sliderHeight) {
-                // Get a array of values for attribute
-                let values = Object.values(data).map(d => d[attribute]);
-
-                // Find the min and max for some values
-                let minMax = d3.extent(values);
-                let xScale = d3.scaleLinear().domain(minMax).range([10, sliderWidth - 10]);
-                let xAxis = d3.axisBottom(xScale).tickFormat(d3.format(".2s"));
-
-                let wrapper = container.append("div").attr("class", "control");
-                wrapper.append("div").text(label);
-
-                let canvas = wrapper.append("svg").attr("width", sliderWidth)
-                    .attr("height", sliderHeight + 20)
-                    .attr("attribute", attribute);
-
-                let areaLayer = canvas.append("g");
-                canvas.append("g").attr("transform", `translate(0,${sliderHeight})`).call(xAxis);
-
-                let numBins = 5;
-
-                let histoGen = d3.histogram().domain(minMax).thresholds(numBins);
-                let counts = histoGen(values);
-
-                counts.unshift({
-                    x0: 0,
-                    x1: counts[0].x0,
-                    length: counts[0].length
-                });
-
-                let yScale = d3.scaleLinear().domain(d3.extent(counts, d => d.length))
-                    .range([sliderHeight, 4]);
-
-                let area = d3.area().x(d => xScale(d.x1))
-                    .y0(yScale(0))
-                    .y1(d => yScale(d.length))
-                    .curve(d3.curveNatural);
-
-                areaLayer.append("path").datum(counts)
-                    .attr("class", "area")
-                    .attr("d", area);
-
-
-                // Create the filter_function for this slider
-                // To be overwritten in brushMoved event
-                let filterFunc = d => true;
-                // Add filterFunc to the filters dictionary
-                filters[attribute] = filterFunc;
-
-                var brush = d3.brushX().extent([[10, 0],
-                [sliderWidth - 10, sliderHeight]])
-                    .on("brush end", brushMoved);
-
-                function brushMoved(event) {
-                    if (event.selection !== null) {
-                        let start = xScale.invert(event.selection[0]);
-                        let end = xScale.invert(event.selection[1]);
-
-                        let filterFunc = d => d[attribute] >= start && d[attribute] <= end;
-                        filters[attribute] = filterFunc;
-
-                        updateDogs(data);
-                    }
-                    else {
-                        let filterFunc = d => true;
-                        filters[attribute] = filterFunc;
-
-                        updateDogs(data);
-                    }
                 }
 
-                canvas.append("g").attr("class", "brush").call(brush);
-            }
+                function makeSlider(container, label, attribute, sliderWidth, sliderHeight) {
+                    // Get a array of values for attribute
+                    let values = Object.values(data).map(d => d[attribute]);
 
-            let controls = d3.select("#controls");
+                    // Find the min and max for some values
+                    let minMax = d3.extent(values);
+                    let xScale = d3.scaleLinear().domain(minMax).range([10, sliderWidth - 10]);
+                    let xAxis = d3.axisBottom(xScale).tickFormat(d3.format(".2s"));
 
-            //Kid Friendly
-            makeSlider(controls, "Incredibly Kid Friendly Dogs: ", "Incredibly Kid Friendly Dogs", 300, 30);
+                    let wrapper = container.append("div").attr("class", "control");
+                    wrapper.append("div").text(label);
 
-            //Pet Friendly
-            makeSlider(controls, "Dog Friendly Dogs: ", "Dog Friendly", 300, 30);
+                    let canvas = wrapper.append("svg").attr("width", sliderWidth)
+                        .attr("height", sliderHeight + 20)
+                        .attr("attribute", attribute);
 
-            //Intelligence
-            makeSlider(controls, "Intelligence: ", "Intelligence", 300, 30);
+                    let areaLayer = canvas.append("g");
+                    canvas.append("g").attr("transform", `translate(0,${sliderHeight})`).call(xAxis);
 
-            // Size
-            makeSlider(controls, "Size: ", "Size", 300, 30);
+                    let numBins = 5;
 
-            // Energy Level
-            makeSlider(controls, "Energy Level: ", "Energy Level", 300, 30);
+                    let histoGen = d3.histogram().domain(minMax).thresholds(numBins);
+                    let counts = histoGen(values);
 
-        };
+                    counts.unshift({
+                        x0: 0,
+                        x1: counts[0].x0,
+                        length: counts[0].length
+                    });
 
-        //call async function
-        requestDataMap();
-    </script>
-</main>
+                    let yScale = d3.scaleLinear().domain(d3.extent(counts, d => d.length))
+                        .range([sliderHeight, 4]);
+
+                    let area = d3.area().x(d => xScale(d.x1))
+                        .y0(yScale(0))
+                        .y1(d => yScale(d.length))
+                        .curve(d3.curveNatural);
+
+                    areaLayer.append("path").datum(counts)
+                        .attr("class", "area")
+                        .attr("d", area);
+
+
+                    // Create the filter_function for this slider
+                    // To be overwritten in brushMoved event
+                    let filterFunc = d => true;
+                    // Add filterFunc to the filters dictionary
+                    filters[attribute] = filterFunc;
+
+                    var brush = d3.brushX().extent([[10, 0],
+                    [sliderWidth - 10, sliderHeight]])
+                        .on("brush end", brushMoved);
+
+                    function brushMoved(event) {
+                        if (event.selection !== null) {
+                            let start = xScale.invert(event.selection[0]);
+                            let end = xScale.invert(event.selection[1]);
+
+                            let filterFunc = d => d[attribute] >= start && d[attribute] <= end;
+                            filters[attribute] = filterFunc;
+
+                            updateDogs(data);
+                        }
+                        else {
+                            let filterFunc = d => true;
+                            filters[attribute] = filterFunc;
+
+                            updateDogs(data);
+                        }
+                    }
+
+                    canvas.append("g").attr("class", "brush").call(brush);
+                }
+
+                let controls = d3.select("#controls");
+
+                //Kid Friendly
+                makeSlider(controls, "Kid Friendliness: ", "Incredibly Kid Friendly Dogs", 300, 30);
+
+                //Pet Friendly
+                makeSlider(controls, "Dog Friendliness: ", "Dog Friendly", 300, 30);
+
+                //Intelligence
+                makeSlider(controls, "Intelligence: ", "Intelligence", 300, 30);
+
+                // Size
+                makeSlider(controls, "Size: ", "Size", 300, 30);
+
+                // Energy Level
+                makeSlider(controls, "Energy Level: ", "Energy Level", 300, 30);
+
+            };
+
+            //call async function
+            requestDataMap();
+        </script>
+    </main>
 </body>
 
 </html>
