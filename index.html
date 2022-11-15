@@ -62,20 +62,24 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
-                    <svg id="choropleth" height="500" width="800" style="background: #445; margin-top:50px"></svg>
+                    <svg id="choropleth" height="400" width="800" style="background: #445; margin-top:50px"></svg>
                 </div>
                 <div class="col-4" id="controls"></div>
             </div>
             <div class="row">
                 <div class="col-12">
+                    <div>
+                        <h4 id="total">Results Total</h4>
+                        <h4>Showing Top 10 Results Below:</h4>
+                    </div>
                     <div class="container-fluid" id="table">
                         <div class="row" id="header">
-                            <div class="col" id="name">Name</div>
-                            <div class="col" id="breed">Breed</div>
-                            <div class="col" id="sex">Sex</div>
-                            <div class="col" id="city">City</div>
-                            <div class="col" id="state">State</div>
-                            <div class="col-6" id="adopt">Adopt Me</div>
+                            <div class="col" id="name"><h5>Name</h5></div>
+                            <div class="col" id="breed"><h5>Breed</h5></div>
+                            <div class="col" id="sex"><h5>Sex</h5></div>
+                            <div class="col" id="city"><h5>City</h5></div>
+                            <div class="col" id="state"><h5>State</h5></div>
+                            <div class="col-6" id="adopt"><h5>Adopt Me</h6></div>
                         </div>
                         <div class="row" id="cell">
                             <div class="col" id="name">Name</div>
@@ -228,25 +232,25 @@
                 .attr("d", path);
 
 
-            // var zoom = d3.zoom()
-            //     .scaleExtent([1, 20])
-            //     .translateExtent([[-50, -50], [mapWidth + 50, mapHeight + 50]]).on("zoom", mapZoomed);
+            var zoom = d3.zoom()
+                .scaleExtent([1, 20])
+                .translateExtent([[-2050, -2050], [mapWidth + 2050, mapHeight + 2050]]).on("zoom", mapZoomed);
 
-            // map.call(zoom);
+            map.call(zoom);
 
-            // map.call(zoom.transform, d3.zoomIdentity);
+            map.call(zoom.transform, d3.zoomIdentity);
 
-            // function mapZoomed({ transform }) {
-            //     map.attr("transform", transform.toString());
-            //     map.select(".state-outline")
-            //         .style("stroke-width", 2 / transform.k);
-            //     map.select(".county-outline")
-            //         .style("stroke-width", 1 / transform.k);
-            //     map.select(".county-outline")
-            //         .attr("visibility", (transform.k > 3) ? "visible" : "hidden");
-            //     map.select(".county")
-            //         .attr("visibility", (transform.k > 3) ? "visibile" : "hidden");
-            // }
+            function mapZoomed({ transform }) {
+                map.attr("transform", transform.toString());
+                map.select(".state-outline")
+                    .style("stroke-width", 2 / transform.k);
+                map.select(".county-outline")
+                    .style("stroke-width", 1 / transform.k);
+                map.select(".county-outline")
+                    .attr("visibility", (transform.k > 3) ? "visible" : "hidden");
+                map.select(".county")
+                    .attr("visibility", (transform.k > 3) ? "visibile" : "hidden");
+            }
 
 
             // 3a. Import survey data as synchronous calls
@@ -398,6 +402,9 @@
                 }
 
                 //Render the preview Table
+                var total = data.length
+                var title = total.toString() + " Results Total"
+                var totalTitle = d3.selectAll("#total").text(title)
 
                 //  grab the table id rows and replace text with dogsPreview data
                 var rows = d3.selectAll("#cell").data(dogsPreview).each(function(d) {
