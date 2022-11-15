@@ -80,7 +80,7 @@
         const mapHeight = height - margin.top - margin.bottom;
         const map = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        const breeds = [];
+        var breeds = [];
 
         // 1. An async function to load data and build the map
         const requestDataMap = async function () {
@@ -273,6 +273,7 @@
             // Updating the map as the user interacts with the interface
             function updateDogs(data) {
                 //First filter the breeds that pass the users filters
+                breeds = [];
                 for (const key in data) {
                     if (pointPassesFilters(data[key])) {
                         breeds.push(key);
@@ -322,19 +323,6 @@
                 tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_city)
                 tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_state)
                 tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.url)
-                //.append("td").text(d => d.sex)
-                //.append("td").text(d => d.breed_primary)
-                // cells = rows.selectAll("td").data(dogsPreview).join(function (d) {
-                //     console.log(d);
-                //     return d;
-                // })
-                //     .enter()
-                //     .append("td")
-                //     .text(function (d) {
-                //         return d;
-                //     });
-
-
             }
 
             function makeSlider(container, label, attribute, sliderWidth, sliderHeight) {
