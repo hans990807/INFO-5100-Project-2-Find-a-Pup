@@ -67,7 +67,98 @@
                 <div class="col-4" id="controls"></div>
             </div>
             <div class="row">
-                <div class="col-12" id="table"></div>
+                <div class="col-12">
+                    <div class="container-fluid" id="table">
+                        <div class="row" id="header">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                        <div class="row" id="cell">
+                            <div class="col" id="name">Name</div>
+                            <div class="col" id="breed">Breed</div>
+                            <div class="col" id="sex">Sex</div>
+                            <div class="col" id="city">City</div>
+                            <div class="col" id="state">State</div>
+                            <div class="col-6" id="adopt">Adopt Me</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -291,7 +382,7 @@
                 });
 
                 // call update previewTable
-                //updatePreviewTable(mapList);
+                updatePreviewTable(mapList);
 
                 // and call update the map
                 updateMap(mapList);
@@ -307,22 +398,16 @@
                 }
 
                 //Render the preview Table
-                var table = d3.select("#table").append("table");
-                var header = table.append("thead").append("tr");
 
-                table.selectAll("table").remove();
-
-                header.selectAll("th").data(["Name", "Breed", "Sex", "City", "State", "Adopt Me"])
-                    .enter().append("th")
-                    .text(d => d);
-
-                var tablebody = table.append("tbody");
-                rows = tablebody.selectAll("tr").data(dogsPreview).enter().append("tr").text(d => d.name)
-                    .append("td").text(d => d.breed_primary)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.sex)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_city)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.contact_state)
-                tablebody.selectAll("tr").data(dogsPreview).append("td").text(d => d.url)
+                //  grab the table id rows and replace text with dogsPreview data
+                var rows = d3.selectAll("#cell").data(dogsPreview).each(function(d) {
+                        d3.select(this).select("#name").text(d => d.name); // Transform to d3 Object
+                        d3.select(this).select("#breed").text(d => d.breed_primary); 
+                        d3.select(this).select("#sex").text(d => d.sex); 
+                        d3.select(this).select("#city").text(d => d.contact_city); 
+                        d3.select(this).select("#state").text(d => d.contact_state); 
+                        d3.select(this).select("#adopt").text(d => d.url); 
+                    });
             }
 
             function makeSlider(container, label, attribute, sliderWidth, sliderHeight) {
@@ -418,12 +503,8 @@
 
         };
 
-
-
         //call async function
         requestDataMap();
-
-
     </script>
 </main>
 </body>
